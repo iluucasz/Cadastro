@@ -1,8 +1,28 @@
+import React from "react";
 import { Link } from "react-router-dom";
-export const Header = () => {
+import Logo from "../../assets/logo.svg";
+import style from "./style.module.scss";
+
+export const Header = ({ userLogout }) => {
+
+    const token = localStorage.getItem("@token");
+
     return (
-        <div>
-            <Link to="/">Home</Link>
-        </div>
-    )
-}
+        <header className={style.container__header}>
+            <Link to="/">
+                <figure>
+                    <img src={Logo} alt="logo da página" />
+                </figure>
+            </Link>
+            {token ? (
+                <Link to="/">
+                    <button onClick={() => userLogout()} className={`${style.header__btn} btn small grey headlineBold grey0`}>Sair</button>
+                </Link>
+            ) : (
+                <Link to="/">
+                    <button className={`${style.header__btn} btn small grey headlineBold grey0`}>Voltar</button>
+                </Link>
+            )}
+        </header>
+    );
+};

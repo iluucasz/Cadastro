@@ -1,67 +1,128 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Input } from "../input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerFormSchema } from "./registerForm.schema";
+import { api } from "../../../services/api";
+import { Select } from "../select";
+import { toast } from "react-toastify";
+import { useState } from "react";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import style from "./style.module.scss";
 
 export const RegisterForm = () => {
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: zodResolver(registerFormSchema),
     });
 
-    const submit = (e) => {
-        console.log(e);
+    const [loading, setLoading] = useState(false);
+
+    const [isHiddenRegister, setIsHiddenRegister] = useState(true);
+
+    const navigate = useNavigate();
+
+    const userRegister = async (payLoad) => {
+        try {
+            setLoading(true);
+            await api.post("/users", payLoad);
+            toast('Conta criada com sucesso');
+            navigate("/");
+        } catch (error) {
+            toast(error.response.data.message)
+        } finally {
+            setLoading(false);
+            reset();
+        }
     }
 
+    const submit = (payLoad) => {
+        userRegister(payLoad);
+    }
 
     return (
-        <form onSubmit={handleSubmit(submit)}>
-            <Input
-                label="Name"
-                type="text"
-                id="name"
-                placeholder="Digite o seu nome"
-                required
-                {...register("name")}
-                error={errors.name}
-            />
-
-            <Input
-                label="Seu email"
-                type="email"
-                id="email"
-                placeholder="Digite o seu email"
-                required
-                {...register("email")}
-                error={errors.email}
-            />
-
-            <Input
-                label="Crie uma senha"
-                type="password"
-                id="password"
-                placeholder="Digite o seu password"
-                required
-                {...register("password")}
-                error={errors.password}
-            />
-
-            <Input
-                label="Confirme a senha"
-                type="password"
-                id="password"
-                placeholder="Confirme sua password"
-                required
-                {...register("againPassword")}
-                error={errors.againPassword}
-            />
-
-            <div>
-                <button type="submit">Criar conta</button>
-                <Link to="/">Voltar ao inicio</Link>
+        <div className={style.container__register}>
+            <div className={style.register__titles}>
+                <h2 className="title2">Crie sua conta</h2>
+                <span className="headline grey">Rapido e grátis, vamos nessa</span>
             </div>
-        </form>
+
+            <form onSubmit={handleSubmit(submit)} className={style.container__form}>
+                <Input
+                    label="Name"
+                    type="text"
+                    id="name"
+                    placeholder="Digite o seu nome"
+                    {...register("name")}
+                    error={errors.name}
+                />
+
+                <Input
+                    label="Seu email"
+                    type="email"
+                    id="email"
+                    placeholder="Digite o seu email"
+                    {...register("email")}
+                    error={errors.email}
+                />
+
+                <Input
+                    label="Crie uma senha"
+                    type={isHiddenRegister ? "password" : "text"}
+                    id="password"
+                    placeholder="Digite o seu password"
+                    {...register("password")}
+                    error={errors.password}
+                />
+
+
+                <Input
+                    label="Confirme a senha"
+                    type="password"
+                    id="password"
+                    placeholder="Confimar Senha"
+                    {...register("againPassword")}
+                    error={errors.againPassword}
+                />
+
+                <Input
+                    label="Bio"
+                    type="text"
+                    id="bio"
+                    placeholder="fale sobre você"
+                    {...register("bio")}
+                    error={errors.bio}
+                />
+                <Input
+                    label="Contato"
+                    type="tel"
+                    id="tel"
+                    placeholder="Opção de contato"
+                    {...register("contact")}
+                    error={errors.contact}
+                />
+
+                <Select
+                    label="Selecione um Módulo"
+                    id="course_module"
+                    placeholder="Primeiro Módulo"
+                    {...register("course_module")}
+                    error={errors.course_module}
+                />
+
+                <div>
+                    <button type="submit" disabled={loading} className="btn negative">Cadastrar</button>
+                </div>
+            </form>
+            <button onClick={() => setIsHiddenRegister(!isHiddenRegister)} type="button" className={style.hidden}>
+                {isHiddenRegister ? <MdVisibilityOff size={18} /> : <MdVisibility size={18} />}
+            </button>
+        </div>
+
 
     )
 }
+
+
+
+
