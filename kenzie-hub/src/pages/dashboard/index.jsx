@@ -20,7 +20,6 @@ export const Dashboard = ({ user, userLogout }) => {
                         </section>
                     </main>
                 </div>
-
             </div>
 
         </>

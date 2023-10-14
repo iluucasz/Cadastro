@@ -7,7 +7,6 @@ import { api } from "../../../services/api";
 import { Select } from "../select";
 import { toast } from "react-toastify";
 import { useState } from "react";
-import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import style from "./style.module.scss";
 
 export const RegisterForm = () => {
@@ -15,10 +14,9 @@ export const RegisterForm = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: zodResolver(registerFormSchema),
     });
-
+    
+    const [isHidden, setIsHidden] = useState(true);
     const [loading, setLoading] = useState(false);
-
-    const [isHiddenRegister, setIsHiddenRegister] = useState(true);
 
     const navigate = useNavigate();
 
@@ -68,21 +66,24 @@ export const RegisterForm = () => {
 
                 <Input
                     label="Crie uma senha"
-                    type={isHiddenRegister ? "password" : "text"}
+                    type={isHidden ? "password" : "text"}
                     id="password"
                     placeholder="Digite o seu password"
                     {...register("password")}
                     error={errors.password}
+                    isHidden={isHidden}
+                    setIsHidden={setIsHidden}
                 />
-
 
                 <Input
                     label="Confirme a senha"
                     type="password"
-                    id="password"
+                    id="againPassword"
                     placeholder="Confimar Senha"
                     {...register("againPassword")}
                     error={errors.againPassword}
+                    isHidden={isHidden}
+                    setIsHidden={setIsHidden}
                 />
 
                 <Input
@@ -101,7 +102,6 @@ export const RegisterForm = () => {
                     {...register("contact")}
                     error={errors.contact}
                 />
-
                 <Select
                     label="Selecione um Módulo"
                     id="course_module"
@@ -114,12 +114,7 @@ export const RegisterForm = () => {
                     <button type="submit" disabled={loading} className="btn negative">Cadastrar</button>
                 </div>
             </form>
-            <button onClick={() => setIsHiddenRegister(!isHiddenRegister)} type="button" className={style.hidden}>
-                {isHiddenRegister ? <MdVisibilityOff size={18} /> : <MdVisibility size={18} />}
-            </button>
         </div>
-
-
     )
 }
 

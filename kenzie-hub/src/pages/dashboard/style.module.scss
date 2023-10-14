@@ -9,10 +9,10 @@
     }
 
     &>div>header {
-        padding: 1rem 15%;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding: 1rem 15%;
     }
 
     .line {
@@ -31,8 +31,9 @@
 .dashboard__info {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
     justify-content: space-between;
+
+    gap: 2rem;
     padding: 4rem 15%;
 }
 
@@ -44,10 +45,11 @@
 
     .dashboard {
         &>div>header {
-            padding: 1rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
+
+            padding: 1rem 5%;
         }
     }
 

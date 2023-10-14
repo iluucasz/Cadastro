@@ -1,14 +1,13 @@
-import { ToastContainer } from 'react-toastify';
-import { RouterMain } from './routers/routerMain';
-import 'react-toastify/dist/ReactToastify.css';
-import '../src/style/index.scss';
+import { ToastContainer } from "react-toastify";
+import { RouterMain } from "./routers/routerMain";
+import "react-toastify/dist/ReactToastify.css";
+import "../src/style/index.scss";
 
 function App() {
-
-
   return (
     <>
       <RouterMain />
+
       <ToastContainer
         position="top-right"
         autoClose={1000}
@@ -19,6 +18,10 @@ function App() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
+        closeButton={false}
+        toastClassName={({ type }) =>
+          type === "success" ? "toast-success" : "toast-error"
+        }
       />
     </>
   )

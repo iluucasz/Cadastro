@@ -3,8 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../input";
 import { Link, useNavigate } from "react-router-dom";
 import { loginFormSchema } from "./loginForm.schema";
-import { MdVisibility, MdVisibilityOff } from "react-icons/md";
-import style from './style.module.scss';
+import style from "./style.module.scss";
 import { useState } from "react";
 import { api } from "../../../services/api";
 import { toast } from "react-toastify";
@@ -25,13 +24,13 @@ export const LoginForm = ({ setUser }) => {
         try {
             setLoading(true)
             const { data } = await api.post("/sessions", payLoad);
-            toast('Usuário logado com Sucesso!');
+            toast.success("Usuário logado com Sucesso!");
             localStorage.setItem("@token", data.token);
             setUser(data.user)
             navigate("/dashboard");
         } catch (error) {
             if (error.response?.data.message == "Incorrect email / password combination") {
-                toast('Email ou senha incorreto')
+                toast.error("Email ou senha incorreto")
             }
         } finally {
             setLoading(false);
@@ -63,11 +62,9 @@ export const LoginForm = ({ setUser }) => {
                 id="password"
                 {...register("password")}
                 error={errors.password}
+                isHidden={isHidden}
+                setIsHidden={setIsHidden}
             />
-
-            <button onClick={() => setIsHidden(!isHidden)} type="button" className={style.hidden}>
-                {isHidden ? <MdVisibilityOff size={18} /> : <MdVisibility size={18} />}
-            </button>
 
             <div className={`${style.form__btn}`}>
                 <button type="submit" className="btn title2" disabled={loading}>Entrar</button>
