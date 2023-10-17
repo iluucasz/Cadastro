@@ -1,5 +1,5 @@
-import { RegisterForm } from "../../components/form/registerForm"
-import pageStyles from "../../style/modules/pageBox.module.scss"
+import { RegisterForm } from "../../components/form/registerForm";
+import pageStyles from "../../style/modules/pageBox.module.scss";
 import { Header } from "../../components/header";
 import style from "./style.module.scss";
 

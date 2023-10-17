@@ -2,8 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/logo.svg";
 import style from "./style.module.scss";
+import { useContext } from "react";
+import { userContext } from "../../providers/userContext";
 
-export const Header = ({ userLogout }) => {
+export const Header = () => {
+
+    const { userLogout } = useContext(userContext);
 
     const token = localStorage.getItem("@token");
 

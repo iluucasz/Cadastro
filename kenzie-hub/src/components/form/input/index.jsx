@@ -1,4 +1,4 @@
-import { forwardRef } from "react"
+import { forwardRef } from "react";
 import style from "../loginForm/style.module.scss";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 

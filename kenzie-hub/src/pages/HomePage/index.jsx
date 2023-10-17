@@ -1,8 +1,8 @@
-import { LoginForm } from "../../components/form/loginForm"
+import { LoginForm } from "../../components/form/loginForm";
 import logo from "../../assets/logo.svg";
 import pageStyles from "../../style/modules/pageBox.module.scss";
 
-export const Home = ({ setUser }) => {
+export const Home = () => {
     return (
         <>
             <main className={pageStyles.pageBox}>
@@ -10,7 +10,7 @@ export const Home = ({ setUser }) => {
                     <figure>
                         <img src={logo} alt="Logo Kenzie Hub" />
                     </figure>
-                    <LoginForm setUser={setUser} />
+                    <LoginForm />
                 </div>
             </main>
 

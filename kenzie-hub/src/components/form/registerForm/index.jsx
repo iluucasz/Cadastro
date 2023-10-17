@@ -1,41 +1,25 @@
-import { useNavigate } from "react-router-dom";
 import { Input } from "../input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerFormSchema } from "./registerForm.schema";
-import { api } from "../../../services/api";
 import { Select } from "../select";
-import { toast } from "react-toastify";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import style from "./style.module.scss";
+import { userContext } from "../../../providers/userContext";
 
 export const RegisterForm = () => {
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: zodResolver(registerFormSchema),
     });
-    
+
     const [isHidden, setIsHidden] = useState(true);
     const [loading, setLoading] = useState(false);
 
-    const navigate = useNavigate();
-
-    const userRegister = async (payLoad) => {
-        try {
-            setLoading(true);
-            await api.post("/users", payLoad);
-            toast('Conta criada com sucesso');
-            navigate("/");
-        } catch (error) {
-            toast(error.response.data.message)
-        } finally {
-            setLoading(false);
-            reset();
-        }
-    }
+    const { userRegister } = useContext(userContext);
 
     const submit = (payLoad) => {
-        userRegister(payLoad);
+        userRegister(payLoad, setLoading, reset);
     }
 
     return (

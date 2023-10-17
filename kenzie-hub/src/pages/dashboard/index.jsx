@@ -1,12 +1,17 @@
+import { useContext } from "react";
 import { Header } from "../../components/header"
+import { userContext } from "../../providers/userContext";
 import style from "./style.module.scss";
 
-export const Dashboard = ({ user, userLogout }) => {
+export const Dashboard = () => {
+
+    const { user } = useContext(userContext);
+
     return (
         <>
             <div className={style.dashboard}>
                 <div>
-                    <Header userLogout={userLogout} />
+                    <Header />
                     <div className={style.line}></div>
                     <main>
                         <section className={style.dashboard__user}>
