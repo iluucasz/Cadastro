@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { api } from "../services/api";
@@ -42,6 +42,25 @@ export const UserProvider = ({ children }) => {
             reset();
         }
     }
+
+    useEffect(() => {
+        const autoLogin = async () => {
+            const token = localStorage.getItem("@token");
+            try {
+                if (token) {
+                    const response = await api.get("/profile", {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+                    setUser(response.data);
+                }
+            } catch (error) {
+                toast.error(error);
+            }
+        }
+        autoLogin();
+    }, [])
 
     const userLogout = () => {
         localStorage.removeItem("@token");

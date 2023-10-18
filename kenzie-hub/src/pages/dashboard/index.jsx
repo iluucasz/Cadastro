@@ -1,11 +1,22 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Header } from "../../components/header"
 import { userContext } from "../../providers/userContext";
 import style from "./style.module.scss";
 
 export const Dashboard = () => {
 
-    const { user } = useContext(userContext);
+    const { user, navigate } = useContext(userContext);
+
+    useEffect(() => {
+        const noBack = localStorage.getItem("@token");
+        if (!noBack) {
+            navigate("/");
+        }
+    }, []);
+
+    if (!user) {
+        return <div>Carregando...</div>;
+    }
 
     return (
         <>
@@ -26,7 +37,6 @@ export const Dashboard = () => {
                     </main>
                 </div>
             </div>
-
         </>
     )
 

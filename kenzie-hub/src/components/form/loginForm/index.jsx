@@ -4,7 +4,7 @@ import { Input } from "../input";
 import { Link } from "react-router-dom";
 import { loginFormSchema } from "./loginForm.schema";
 import style from "./style.module.scss";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { userContext } from "../../../providers/userContext";
 
 export const LoginForm = () => {
@@ -12,14 +12,26 @@ export const LoginForm = () => {
     const [loading, setLoading] = useState(false);
     const [isHidden, setIsHidden] = useState(true);
 
-    const { userLogin } = useContext(userContext);
+    const { userLogin, navigate } = useContext(userContext);
+
+    useEffect(() => {
+        const noBack = localStorage.getItem("@token");
+        if (noBack) {
+            navigate("/dashboard");
+        }
+    }, [])
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: zodResolver(loginFormSchema),
     })
 
-    const submit = (payLoad) => {
-        userLogin(payLoad, setLoading, reset)
+    const submit = async (payLoad) => {
+        setLoading(true);
+        try {
+            await userLogin(payLoad, setLoading, reset);
+        } catch (error) {
+            setLoading(false);
+        }
     }
 
     return (
@@ -47,7 +59,9 @@ export const LoginForm = () => {
             />
 
             <div className={`${style.form__btn}`}>
-                <button type="submit" className="btn title2" disabled={loading}>Entrar</button>
+                <button type="submit" className="btn title2" disabled={loading}>
+                    {loading ? "Carregando..." : "Entrar"}
+                </button>
                 <span className="headline grey">Ainda não possui uma conta?</span>
                 <Link to="/register" className="btn grey title2">Cadastre-se</Link>
             </div>
