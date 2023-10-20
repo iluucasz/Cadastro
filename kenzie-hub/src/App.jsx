@@ -4,13 +4,14 @@ import "react-toastify/dist/ReactToastify.css";
 import "../src/style/index.scss";
 import { useContext } from "react";
 import { userContext } from "./providers/userContext";
+import { Loading } from "./loading";
 
 function App() {
   const { loading } = useContext(userContext);
   return (
     <>
       {
-        loading ? <div>Carregando...</div> :
+        loading ? <Loading /> :
           <RouterMain />
       }
 
