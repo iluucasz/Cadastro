@@ -12,14 +12,7 @@ export const LoginForm = () => {
     const [loading, setLoading] = useState(false);
     const [isHidden, setIsHidden] = useState(true);
 
-    const { userLogin, navigate } = useContext(userContext);
-
-    useEffect(() => {
-        const noBack = localStorage.getItem("@token");
-        if (noBack) {
-            navigate("/dashboard");
-        }
-    }, [])
+    const { userLogin } = useContext(userContext);
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: zodResolver(loginFormSchema),

@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { api } from "../services/api";
 
@@ -10,6 +10,10 @@ export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    const { state } = useLocation();
+
+    const pathname = window.location.pathname;
+
     const navigate = useNavigate();
 
     const userLogin = async (payLoad, setLoading, reset) => {
@@ -19,7 +23,7 @@ export const UserProvider = ({ children }) => {
             setUser(data.user)
             toast.success("Usuário logado com Sucesso!");
             localStorage.setItem("@token", data.token);
-            navigate("/dashboard");
+            navigate(state?.lastRoute ? state.lastRoute : pathname);
         } catch (error) {
             if (error.response?.data.message == "Incorrect email / password combination") {
                 toast.error("Email ou senha incorreto")
@@ -56,6 +60,7 @@ export const UserProvider = ({ children }) => {
                         },
                     });
                     setUser(response.data);
+                    navigate(pathname);
                 }
             } catch (error) {
                 toast.error(error);

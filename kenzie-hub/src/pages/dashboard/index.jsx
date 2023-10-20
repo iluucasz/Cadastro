@@ -5,18 +5,7 @@ import style from "./style.module.scss";
 
 export const Dashboard = () => {
 
-    const { user, navigate } = useContext(userContext);
-
-    useEffect(() => {
-        const noBack = localStorage.getItem("@token");
-        if (!noBack) {
-            navigate("/");
-        }
-    }, []);
-
-    if (!user) {
-        return <div>Carregando...</div>;
-    }
+    const { user } = useContext(userContext);
 
     return (
         <>
