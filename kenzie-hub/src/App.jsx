@@ -2,11 +2,17 @@ import { ToastContainer } from "react-toastify";
 import { RouterMain } from "./routers/routerMain";
 import "react-toastify/dist/ReactToastify.css";
 import "../src/style/index.scss";
+import { useContext } from "react";
+import { userContext } from "./providers/userContext";
 
 function App() {
+  const { loading } = useContext(userContext);
   return (
     <>
-      <RouterMain />
+      {
+        loading ? <div>Carregando...</div> :
+          <RouterMain />
+      }
 
       <ToastContainer
         position="top-right"

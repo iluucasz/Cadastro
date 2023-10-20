@@ -8,6 +8,7 @@ export const userContext = createContext({});
 export const UserProvider = ({ children }) => {
 
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -48,6 +49,7 @@ export const UserProvider = ({ children }) => {
             const token = localStorage.getItem("@token");
             try {
                 if (token) {
+                    setLoading(true)
                     const response = await api.get("/profile", {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -57,6 +59,9 @@ export const UserProvider = ({ children }) => {
                 }
             } catch (error) {
                 toast.error(error);
+            }
+            finally {
+                setLoading(false);
             }
         }
         autoLogin();
@@ -69,7 +74,7 @@ export const UserProvider = ({ children }) => {
     }
 
     return (
-        <userContext.Provider value={{ user, setUser, userLogin, userLogout, navigate, userRegister }} >
+        <userContext.Provider value={{ user, setUser, userLogin, userLogout, navigate, userRegister, loading }} >
             {children}
         </userContext.Provider >
     )
