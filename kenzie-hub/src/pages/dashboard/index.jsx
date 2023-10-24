@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Header } from "../../components/header"
 import { userContext } from "../../providers/userContext";
 import style from "./style.module.scss";
+import { TechList } from "../../components/techList";
 
 export const Dashboard = () => {
 
@@ -20,8 +21,7 @@ export const Dashboard = () => {
                         </section>
                         <div className={style.line}></div>
                         <section className={style.dashboard__info}>
-                            <h2 className="title1">Que pena! Estamos em Desenvolvimento :( </h2>
-                            <p className="paragraph">Nossa aplicação está em desenvolvimento, em breve teremos novidades</p>
+                            <TechList />
                         </section>
                     </main>
                 </div>
