@@ -9,6 +9,8 @@ export const TechProvider = ({ children }) => {
     const token = localStorage.getItem("@token");
 
     const [techList, setTechList] = useState([]);
+    const [editList, setEditList] = useState(null);
+
     const [visibleModal, setVisibleModal] = useState(false);
 
     const addTech = async (payLoad) => {
@@ -21,7 +23,9 @@ export const TechProvider = ({ children }) => {
             setTechList([...techList, data]);
             toast.success("Tecnologia adicionada com sucesso.");
         } catch (error) {
-            toast.error(error)
+            if (error.message == "Request failed with status code 401") {
+                toast.error("Já existe uma tarefa com este nome")
+            }
         }
     }
 
@@ -41,9 +45,57 @@ export const TechProvider = ({ children }) => {
         viewTechs();
     }, []);
 
+    const techUpdate = async (payLoad) => {
+        try {
+            const { data } = await api.put(`/users/techs/${editList.id}`, payLoad, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            const newPostList = techList.map((post) => {
+                if (post.id === editList.id) {
+                    return data;
+                } else {
+                    return post;
+                }
+            });
+            toast.success("Tarefa atualizada com sucesso")
+            setTechList(newPostList);
+        } catch (error) {
+            toast.error(error);
+        }
+    }
+
+    const techDelete = async (payLoad) => {
+        try {
+            await api.delete(`/users/techs/${payLoad}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            const newPostList = techList.filter((post) => post.id !== payLoad);
+
+            setTechList(newPostList);
+            toast.success("Exclusão realizada com sucesso!");
+        } catch (error) {
+            toast.success(error)
+        }
+    }
 
     return (
-        <techContext.Provider value={{ techList, addTech, setTechList, visibleModal, setVisibleModal }}>
+        <techContext.Provider value={
+            {
+                techList,
+                addTech,
+                techUpdate,
+                setTechList,
+                visibleModal,
+                setVisibleModal,
+                setEditList,
+                editList,
+                techDelete
+            }
+        }>
             {children}
         </techContext.Provider>
     )

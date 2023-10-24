@@ -1,31 +1,52 @@
+import { useForm } from "react-hook-form";
+import style from "./style.module.scss";
+import { SelectCart } from "../forms/select";
+import { InputCart } from "../forms/input";
+import { useContext } from "react";
+import { techContext } from "../../../providers/techContext";
+
 export const EditTechModal = () => {
+
+    const { setEditList, editList, techUpdate } = useContext(techContext);
+
+    const { handleSubmit, register } = useForm(
+        {
+            values: {
+                status: editList.status
+            }
+        }
+    );
+
+    const submit = (payLoad) => {
+        techUpdate(payLoad)
+        setEditList(null);
+    }
+
     return (
-        <div>
-            <div role="dialog">
+        <div role="dialog" className={style.container__Modal}>
+            <form onSubmit={handleSubmit(submit)} className={style.container__BoxModal}>
 
-                <form>
-                    <div>
-                        <h3>Cadastrar tecnologia</h3>
-                        <button>FECHAR</button>
-                    </div>
+                <div className={style.container__ModalTitle}>
+                    <h3 className="title2">Tecnologia detalhes</h3>
+                    <button type="button" onClick={() => { setEditList(null) }} className="paragraph grey">X</button>
+                </div>
 
-                    <div>
-                        <p>nome</p>
-                        <input type="text" />
-                    </div>
+                <div className={style.container__ModalCart}>
+                    <InputCart
+                        label="Nome"
+                        placeholder={editList.title}
+                        id="title"
+                        disabled={true}
+                    />
+                    <SelectCart
+                        label="Selecionar status"
+                        {...register("status")}
+                    />
 
-                    <div>
-                        <p>nome</p>
-                        <select name="status">
-                            <option value="iniciante">Iniciante</option>
-                            <option value="intermediário">Intermediário</option>
-                            <option value="avançado">Avançado</option>
-                        </select>
-                    </div>
+                    <button type="submit" className="btn">Salvar alterações</button>
+                </div>
 
-                    <button type="submit">Salvar alterações</button>
-                </form>
-            </div>
+            </form>
         </div>
     )
 }

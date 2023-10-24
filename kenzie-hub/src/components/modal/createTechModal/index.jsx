@@ -3,17 +3,16 @@ import { InputCart } from "../forms/input";
 import { SelectCart } from "../forms/select";
 import { useContext } from "react";
 import { techContext } from "../../../providers/techContext";
-import style from "./style.module.scss"
+import style from "./style.module.scss";
 
 export const CreateTechModal = () => {
 
-    const { techList, setTechList, addTech, setVisibleModal } = useContext(techContext);
+    const { addTech, setVisibleModal } = useContext(techContext);
 
     const { handleSubmit, register } = useForm();
 
     const submit = (payLoad) => {
         addTech(payLoad);
-        setTechList([...techList, payLoad]);
         setVisibleModal(false);
     }
 
@@ -32,13 +31,14 @@ export const CreateTechModal = () => {
                         placeholder="Digite o nome"
                         id="title"
                         {...register("title")}
+                        required
                     />
                     <SelectCart
                         label="Selecionar status"
                         {...register("status")}
                     />
 
-                    <button type="submit" className="btn">Cadastrar</button>
+                    <button type="submit" className="btn">Cadastrar tecnologia</button>
                 </div>
             </form>
 

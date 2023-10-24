@@ -14,10 +14,16 @@ body {
     align-items: center;
     justify-content: center;
 
-    height: 50px;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+
+    height: 60px;
+    padding: 0.5rem;
+    border-radius: 4px;
 
     color: var(--color-grey-0);
-    background-color: var(--color-sucess);
+    background-color: var(--color-grey-2);
 }
 
 .toast-error {
@@ -25,8 +31,14 @@ body {
     align-items: center;
     justify-content: center;
 
-    height: 50px;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+
+    height: 60px;
+    padding: 0.5rem;
+    border-radius: 4px;
 
     color: var(--color-grey-0);
-    background-color: var(--color-unsucess);
+    background-color: var(--color-grey-2);
 }

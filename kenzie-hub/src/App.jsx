@@ -18,14 +18,14 @@ function App() {
       <ToastContainer
         position="top-right"
         autoClose={1000}
-        hideProgressBar
+        hideProgressBar={false}
         newestOnTop
         closeOnClick
         rtl={false}
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        closeButton={false}
+        closeButton={true}
         toastClassName={({ type }) =>
           type === "success" ? "toast-success" : "toast-error"
         }

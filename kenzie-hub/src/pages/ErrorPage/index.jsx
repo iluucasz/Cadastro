@@ -1,4 +1,5 @@
 export const ErrorPage = () => {
+
     return (
         <main>
             <div>
@@ -7,4 +8,5 @@ export const ErrorPage = () => {
             <p className="paragraph">Desculpe a página que você está tentando acessar não existe</p>
         </main>
     )
+
 }

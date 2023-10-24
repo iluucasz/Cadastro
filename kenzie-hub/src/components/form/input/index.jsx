@@ -22,9 +22,8 @@ export const Input = forwardRef(({ error, label, id, isHidden, setIsHidden, ...r
                     <input ref={ref} {...rest} className="boxInput headline" />
                     {error ? <span className="headline red">{error.message}</span> : null}
                 </div >
-                
-            }
 
+            }
         </>
     )
 });

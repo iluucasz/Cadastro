@@ -3,6 +3,7 @@ import logo from "../../assets/logo.svg";
 import pageStyles from "../../style/modules/pageBox.module.scss";
 
 export const Home = () => {
+
     return (
         <>
             <main className={pageStyles.pageBox}>
@@ -16,4 +17,5 @@ export const Home = () => {
 
         </>
     )
+    
 }
